@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Upload and Bank ID</title>
+</head>
+<body>
+    <h1>Upload PDF and Enter Bank ID</h1>
+    <form action="http://localhost:5000/upload" method="post" enctype="multipart/form-data">
+        <label for="file">Upload PDF:</label>
+        <input type="file" name="file" id="file" required><br><br>
+
+        <label for="bank_id">Enter Bank ID:</label>
+        <input type="text" name="bank_id" id="bank_id" required><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
