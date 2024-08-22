@@ -18,8 +18,13 @@ def upload_file():
         return jsonify({'error': 'No selected file'}), 400
 
     if file and bank_id:
-        # Create a folder for uploads if it does not exist
+        # Create the upload folder if it does not exist
         os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+        # Check if the key file exists
+        key_file_path = os.path.join(UPLOAD_FOLDER, f'{bank_id}.key')
+        if not os.path.exists(key_file_path):
+            return jsonify({'error': 'Key file not found'}), 404
 
         # Save the uploaded PDF file
         filename = secure_filename(file.filename)
@@ -29,15 +34,15 @@ def upload_file():
         except Exception as e:
             return jsonify({'error': f'Failed to save file: {str(e)}'}), 500
 
-        # Save Bank ID to a text file in the same directory as the PDF
-        bank_id_file_path = os.path.join(UPLOAD_FOLDER, 'bankid.key')
+        # Save Bank ID to a text file named bankid.txt
+        bank_id_file_path = os.path.join(UPLOAD_FOLDER, 'bankid.txt')
         try:
             with open(bank_id_file_path, 'w') as bank_id_file:
                 bank_id_file.write(bank_id)
         except Exception as e:
-            return jsonify({'error': f'Failed to write bankid.key: {str(e)}'}), 500
+            return jsonify({'error': f'Failed to write bankid.txt: {str(e)}'}), 500
 
-        return jsonify({'message': 'File uploaded and Bank ID stored successfully'}), 200
+        return jsonify({'message': 'File uploaded, Bank ID stored, and key file validated successfully'}), 200
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
