@@ -19,3 +19,14 @@ ENV FLASK_APP=app.py
 # Run the application
 CMD ["flask", "run", "--host=0.0.0.0"]
 
+
+=======================
+version: '3'
+services:
+  pdf-encryptor:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./uploads:/app/uploads
+
